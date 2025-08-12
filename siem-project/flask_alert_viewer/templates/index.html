@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SIEM Alert Viewer</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <style> body { padding: 2rem; } th { background-color: #ff4545; color: white;} </style>
+</head>
+<body>
+    <header>
+        <h1>SIEM Detected Threats</h1>
+        <p>A simple viewer for logs tagged with 'threat_detected' in Elasticsearch.</p>
+    </header>
+    
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Threat Level</th>
+                    <th>Event Type</th>
+                    <th>Source IP</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert in alerts %}
+                <tr>
+                    <td>{{ alert.get('@timestamp', 'N/A') }}</td>
+                    <td><b>{{ alert.get('threat_level', 'N/A').upper() }}</b></td>
+                    <td>{{ alert.get('event_type', 'N/A') }}</td>
+                    <td>{{ alert.get('source_ip', 'N/A') }}</td>
+                    <td><small>{{ alert.get('message', 'N/A') }}</small></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
